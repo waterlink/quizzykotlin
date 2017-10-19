@@ -2,6 +2,6 @@ package business
 
 interface QuizStorage {
 
-    fun load(id: String): Quiz
+    fun load(id: String): Quiz?
 
 }

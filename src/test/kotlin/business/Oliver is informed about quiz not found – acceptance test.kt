@@ -1,28 +1,28 @@
 package business
 
-import org.junit.Assert
+import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.ExpectedException
 import java.util.*
 
 class `Oliver is informed about quiz not found – acceptance test` {
+
+    @get:Rule
+    val thrown = ExpectedException.none()
 
     @Test
     fun `fails with QuizNotFoundException when there are no quizes`() {
         // Given there are no quizes
         val quizStorage = TestOnlyQuizStorage(quizes = emptyList())
         val startQuizService = StartQuizService(quizStorage)
+        val someId = UUID.randomUUID().toString()
+
+        // Then I see Quiz Not Found error
+        thrown.expect(QuizNotFoundException::class.java)
+        thrown.expectMessage("Unable to find Quiz with id = " + someId)
 
         // When I start quiz with some id
-        try {
-            val someId = UUID.randomUUID().toString()
-            val result = startQuizService.startQuiz(someId)
-            // Then I see Quiz Not Found error
-        } catch (e: QuizNotFoundException) {
-            // everything is good, we will stop the test
-            return
-        }
-        // or fail if we did not get the exception
-        Assert.assertEquals(true, false)
-
+        startQuizService.startQuiz(someId)
     }
 }
+
