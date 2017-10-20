@@ -1,5 +1,4 @@
 package business
 
-class QuizNotFoundException : RuntimeException() {
-
-}
+class QuizNotFoundException(id: String)
+    : RuntimeException("Unable to find Quiz with id = " + id)
