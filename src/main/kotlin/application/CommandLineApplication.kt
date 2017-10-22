@@ -1,9 +1,10 @@
 package application
 
+import business.Question
+import business.QuizHasNoQuestionsException
+import business.QuizNotFoundException
 import business.StartQuizService
-import ui.CommandLineArgumentsParser
-import ui.CurrentQuestionView
-import ui.StartQuizUserIntent
+import ui.*
 
 class CommandLineApplication(private val args: Array<String>) {
     fun run() {
@@ -19,9 +20,22 @@ class CommandLineApplication(private val args: Array<String>) {
         val quizStorage = FileSystemQuizStorage()
         val service = StartQuizService(quizStorage = quizStorage)
 
-        val result = service.startQuiz(userIntent.quizId)
+        val result: Question
+
+        try {
+            result = service.startQuiz(userIntent.quizId)
+        } catch (e: QuizNotFoundException) {
+            val errorView = QuizNotFoundView(e.message)
+            errorView.render()
+            return
+        } catch (e: QuizHasNoQuestionsException) {
+            val errorView = QuizHasNoQuestionsView(e.message)
+            errorView.render()
+            return
+        }
 
         val view = CurrentQuestionView(result.title)
         view.render()
     }
 }
+
