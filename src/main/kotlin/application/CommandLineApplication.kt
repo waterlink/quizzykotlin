@@ -6,7 +6,11 @@ import business.QuizNotFoundException
 import business.StartQuizService
 import ui.*
 
-class CommandLineApplication(private val args: Array<String>) {
+class CommandLineApplication(
+        private val args: Array<String>,
+        private val commandLineUser: CommandLineUser,
+        private val commandLinePrinter: CommandLinePrinter) {
+
     fun run() {
         val argsParser = CommandLineArgumentsParser()
         val userIntent = argsParser.parse(args)
