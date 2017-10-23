@@ -1,7 +1,11 @@
 package ui
 
-class CurrentQuestionView(private val title: String) {
+class CurrentQuestionView(
+        private val title: String,
+        private val commandLinePrinter: CommandLinePrinter) {
+
     fun render() {
-        println("Current question: $title")
+        commandLinePrinter.println("Current question: $title")
     }
+
 }

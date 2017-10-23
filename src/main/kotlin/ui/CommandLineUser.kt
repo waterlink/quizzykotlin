@@ -1,5 +1,9 @@
 package ui
 
-class CommandLineUser {
+open class CommandLineUser {
+
+    open fun readCommand(): String {
+        return readLine()!!.trim()
+    }
 
 }

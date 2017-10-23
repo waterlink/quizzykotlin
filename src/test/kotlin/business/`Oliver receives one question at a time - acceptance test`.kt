@@ -31,6 +31,20 @@ class `Oliver receives one question at a time - acceptance test` {
     }
 
     @Test
+    fun `can move to the next question`() {
+
+        // Given I have started the quiz
+        quiz.start()
+
+        // When I move to the next question
+        quiz.moveToNextQuestion()
+
+        // Then I see that next question
+        Assert.assertEquals(second, quiz.currentQuestion)
+
+    }
+
+    @Test
     fun `can load quiz from storage, start it and respond with current question`() {
 
         // Given there is a Quiz with a few Questions in the Quiz Storage

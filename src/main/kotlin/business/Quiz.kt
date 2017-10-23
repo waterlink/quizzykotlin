@@ -5,8 +5,15 @@ class Quiz(val id: String,
 
     var currentQuestion: Question? = null
 
+    private var questionIndex = 0
+
     fun start() {
         currentQuestion = questions.firstOrNull()
+    }
+
+    fun moveToNextQuestion() {
+        questionIndex += 1
+        currentQuestion = questions[questionIndex]
     }
 
     override fun toString(): String {

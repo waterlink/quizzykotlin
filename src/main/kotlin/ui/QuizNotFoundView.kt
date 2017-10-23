@@ -1,10 +1,12 @@
 package ui
 
-class QuizNotFoundView(private val message: String?) {
+class QuizNotFoundView(
+        private val message: String?,
+        private val commandLinePrinter: CommandLinePrinter) {
 
     fun render() {
-        println("Error: $message")
-        println("Check the quiz id you’ve typed")
+        commandLinePrinter.println("Error: $message")
+        commandLinePrinter.println("Check the quiz id you’ve typed")
     }
 
 }

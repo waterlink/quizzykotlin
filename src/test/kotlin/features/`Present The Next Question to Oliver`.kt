@@ -46,11 +46,14 @@ class `Present The Next Question to Oliver` {
         val application = CommandLineApplication(
                 args = args,
                 commandLineUser = commandLineUser,
-                commandLinePrinter = commandLinePrinter)
+                commandLinePrinter = commandLinePrinter,
+                quizStorage = quizStorage)
 
         // When I choose to move to the next question
         given(commandLineUser.readCommand())
-                .willReturn("next")
+                .willReturn(
+                        "next",
+                        "quit")
 
         application.run()
 
