@@ -45,6 +45,22 @@ class `Oliver receives one question at a time - acceptance test` {
     }
 
     @Test
+    fun `can load started quiz from storage and move to the next question`() {
+
+        // Given I have started the quiz
+        quiz.start()
+        val quizStorage = TestOnlyQuizStorage(quizes = listOf(quiz))
+        val nextQuestionService = NextQuestionService(quizStorage)
+
+        // When I move to the next question
+        val result = nextQuestionService.moveToNextQuestion(quiz.id)
+
+        // Then I see the next Question from that Quiz
+        Assert.assertEquals(second, result)
+
+    }
+
+    @Test
     fun `can load quiz from storage, start it and respond with current question`() {
 
         // Given there is a Quiz with a few Questions in the Quiz Storage

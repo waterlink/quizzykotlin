@@ -32,7 +32,14 @@ class `Present The Next Question to Oliver` {
                 id = UUID.randomUUID().toString(),
                 title = "How about Question Two?")
 
-        val questions = listOf(questionOne, questionTwo)
+        val questionThree = Question(
+                id = UUID.randomUUID().toString(),
+                title = "How about Question Three?")
+
+        val questions = listOf(
+                questionOne,
+                questionTwo,
+                questionThree)
 
         val quiz = Quiz(
                 id = UUID.randomUUID().toString(),
@@ -53,6 +60,7 @@ class `Present The Next Question to Oliver` {
         given(commandLineUser.readCommand())
                 .willReturn(
                         "next",
+                        "next",
                         "quit")
 
         application.run()
@@ -62,6 +70,8 @@ class `Present The Next Question to Oliver` {
                 .println("Current question: How about Question One?")
         verify(commandLinePrinter)
                 .println("Current question: How about Question Two?")
+        verify(commandLinePrinter)
+                .println("Current question: How about Question Three?")
     }
 }
 

@@ -16,6 +16,12 @@ class Quiz(val id: String,
         currentQuestion = questions[questionIndex]
     }
 
+    fun copy(): Quiz {
+        return Quiz(
+                id = id,
+                questions = questions)
+    }
+
     override fun toString(): String {
         return "Quiz(id='$id', questions=$questions)"
     }

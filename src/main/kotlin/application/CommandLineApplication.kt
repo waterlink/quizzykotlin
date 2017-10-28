@@ -10,6 +10,7 @@ class CommandLineApplication(
         private val quizStorage: QuizStorage) {
 
     private var wantsQuit = false
+    private var quizId = ""
 
     fun run() {
         val argsParser = CommandLineArgumentsParser()
@@ -39,6 +40,8 @@ class CommandLineApplication(
     }
 
     private fun handleStartQuiz(userIntent: StartQuizUserIntent) {
+        quizId = userIntent.quizId
+
         val service = StartQuizService(quizStorage = quizStorage)
 
         val result: Question
@@ -68,7 +71,25 @@ class CommandLineApplication(
     }
 
     private fun handleNextQuestion(userIntent: NextQuestionUserIntent) {
+        val service = NextQuestionService(quizStorage = quizStorage)
 
+        val result: Question
+
+        try {
+            result = service.moveToNextQuestion(quizId)
+        } catch (e: QuizHasNoQuestionsException) {
+            val errorView = QuizHasNoQuestionsView(
+                    message = e.message,
+                    commandLinePrinter = commandLinePrinter)
+            errorView.render()
+            wantsQuit = true
+            return
+        }
+
+        val view = CurrentQuestionView(
+                title = result.title,
+                commandLinePrinter = commandLinePrinter)
+        view.render()
     }
 }
 
