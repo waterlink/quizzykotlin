@@ -67,11 +67,29 @@ class `Present The Next Question to Oliver` {
 
         // Then I see the next question
         verify(commandLinePrinter)
-                .println("Current question: How about Question One?")
+                .println("""
+                    |Current question: How about Question One?
+                    |
+                    |    type "next" to advance to the next question
+                    |    type "quit" to abort the quiz and exit
+                    |
+                """.trimMargin())
         verify(commandLinePrinter)
-                .println("Current question: How about Question Two?")
+                .println("""
+                    |Current question: How about Question Two?
+                    |
+                    |    type "next" to advance to the next question
+                    |    type "quit" to abort the quiz and exit
+                    |
+                """.trimMargin())
         verify(commandLinePrinter)
-                .println("Current question: How about Question Three?")
+                .println("""
+                    |Current question: How about Question Three?
+                    |
+                    |    type "next" to advance to the next question
+                    |    type "quit" to abort the quiz and exit
+                    |
+                """.trimMargin())
     }
 
     @Test
@@ -103,7 +121,13 @@ class `Present The Next Question to Oliver` {
 
         // Then the quiz is over
         verify(commandLinePrinter)
-                .println("Current question: How about Question One?")
+                .println("""
+                    |Current question: How about Question One?
+                    |
+                    |    type "next" to advance to the next question
+                    |    type "quit" to abort the quiz and exit
+                    |
+                """.trimMargin())
         verify(commandLinePrinter)
                 .println("Congratulations! You have completed the quiz!")
     }

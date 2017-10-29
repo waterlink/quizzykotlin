@@ -84,6 +84,8 @@ class CommandLineApplication(
             return service.moveToNextQuestion(quizId)
         } catch (e: QuizHasNoQuestionsException) {
             renderQuizHasNoQuestions(e)
+        } catch (e: QuizCompletedException) {
+            renderQuizCompleted()
         }
 
         wantsQuit = true
@@ -93,6 +95,12 @@ class CommandLineApplication(
     private fun renderCurrentQuestion(result: Question) {
         val view = CurrentQuestionView(
                 title = result.title,
+                commandLinePrinter = commandLinePrinter)
+        view.render()
+    }
+
+    private fun renderQuizCompleted() {
+        val view = QuizCompletedView(
                 commandLinePrinter = commandLinePrinter)
         view.render()
     }
@@ -111,3 +119,4 @@ class CommandLineApplication(
         errorView.render()
     }
 }
+

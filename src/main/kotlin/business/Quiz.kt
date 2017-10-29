@@ -13,6 +13,11 @@ class Quiz(val id: String,
 
     fun moveToNextQuestion() {
         questionIndex += 1
+
+        if (questionIndex >= questions.size) {
+            throw QuizCompletedException()
+        }
+
         currentQuestion = questions[questionIndex]
     }
 
