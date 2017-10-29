@@ -7,7 +7,10 @@ class CommandLineApplication(
         private val args: Array<String>,
         private val commandLineUser: CommandLineUser,
         private val commandLinePrinter: CommandLinePrinter,
-        private val quizStorage: QuizStorage) {
+        underlyingQuizStorage: QuizStorage) {
+
+    private val quizStorage: QuizStorage = CachingQuizStorage(
+            underlyingQuizStorage = underlyingQuizStorage)
 
     private var wantsQuit = false
     private var quizId = ""
