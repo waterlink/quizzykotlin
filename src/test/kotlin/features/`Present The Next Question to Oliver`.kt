@@ -54,7 +54,7 @@ class `Present The Next Question to Oliver` {
                 args = args,
                 commandLineUser = commandLineUser,
                 commandLinePrinter = commandLinePrinter,
-                quizStorage = quizStorage)
+                underlyingQuizStorage = quizStorage)
 
         // When I choose to move to the next question
         given(commandLineUser.readCommand())

@@ -8,7 +8,7 @@ fun main(args: Array<String>) {
             args = args,
             commandLineUser = CommandLineUser(),
             commandLinePrinter = CommandLinePrinter(),
-            quizStorage = FileSystemQuizStorage())
+            underlyingQuizStorage = FileSystemQuizStorage())
 
     application.run()
 }

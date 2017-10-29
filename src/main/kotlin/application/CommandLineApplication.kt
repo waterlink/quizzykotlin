@@ -21,30 +21,41 @@ class CommandLineApplication(
 
         while (!wantsQuit) {
 
-            if (userIntent is StartQuizUserIntent) {
-                handleStartQuiz(userIntent)
-            }
-
-            if (userIntent is NextQuestionUserIntent) {
-                handleNextQuestion(userIntent)
-            }
+            handleUserIntent(userIntent)
 
             val userInput = commandLineUser.readCommand()
 
-            if (userInput == "next") {
-                userIntent = NextQuestionUserIntent()
-            }
-
-            if (userInput == "quit") {
-                wantsQuit = true
-            }
+            userIntent = determineUserIntent(userInput)
 
         }
     }
 
+    private fun handleUserIntent(userIntent: UserIntent) {
+        when (userIntent) {
+            is StartQuizUserIntent -> handleStartQuiz(userIntent)
+            is NextQuestionUserIntent -> handleNextQuestion(userIntent)
+            else -> throw RuntimeException("unknown user intent")
+        }
+    }
+
+    private fun determineUserIntent(userInput: String): UserIntent {
+        return when (userInput) {
+            "next" -> NextQuestionUserIntent()
+
+            "quit" -> {
+                wantsQuit = true
+                WantsQuitUserIntent()
+            }
+
+            else -> throw RuntimeException("unknown user input")
+        }
+    }
+
     private fun handleStartQuiz(userIntent: StartQuizUserIntent) {
+        // save current quiz id
         quizId = userIntent.quizId
 
+        // start quiz
         val service = StartQuizService(quizStorage = quizStorage)
 
         val result: Question
@@ -52,26 +63,35 @@ class CommandLineApplication(
         try {
             result = service.startQuiz(userIntent.quizId)
         } catch (e: QuizNotFoundException) {
+
+            // handle quiz not found error
             val errorView = QuizNotFoundView(
                     message = e.message,
                     commandLinePrinter = commandLinePrinter)
             errorView.render()
             wantsQuit = true
+
             return
         } catch (e: QuizHasNoQuestionsException) {
+
+            // handle quiz has no questions error
             val errorView = QuizHasNoQuestionsView(
                     message = e.message,
                     commandLinePrinter = commandLinePrinter)
             errorView.render()
             wantsQuit = true
+
             return
         }
 
+        // render current question view
         val view = CurrentQuestionView(
                 title = result.title,
                 commandLinePrinter = commandLinePrinter)
         view.render()
     }
+
+    private fun
 
     private fun handleNextQuestion(userIntent: NextQuestionUserIntent) {
         val service = NextQuestionService(quizStorage = quizStorage)
@@ -95,4 +115,3 @@ class CommandLineApplication(
         view.render()
     }
 }
-
