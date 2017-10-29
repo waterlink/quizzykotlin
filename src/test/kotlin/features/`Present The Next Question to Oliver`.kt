@@ -73,5 +73,40 @@ class `Present The Next Question to Oliver` {
         verify(commandLinePrinter)
                 .println("Current question: How about Question Three?")
     }
+
+    @Test
+    fun `reaching the end of the quiz when moving to the next question`() {
+        // Given I am on the last question of the quiz
+        val question = Question(
+                id = UUID.randomUUID().toString(),
+                title = "How about Question One?")
+
+        val quiz = Quiz(
+                id = UUID.randomUUID().toString(),
+                questions = listOf(question))
+
+        val quizStorage: QuizStorage = TestOnlyQuizStorage(
+                quizes = listOf(quiz))
+
+        val args = arrayOf("start-quiz", quiz.id)
+        val application = CommandLineApplication(
+                args = args,
+                commandLineUser = commandLineUser,
+                commandLinePrinter = commandLinePrinter,
+                underlyingQuizStorage = quizStorage)
+
+        // When I choose to move to the next question
+        given(commandLineUser.readCommand())
+                .willReturn("next")
+
+        application.run()
+
+        // Then the quiz is over
+        verify(commandLinePrinter)
+                .println("Current question: How about Question One?")
+        verify(commandLinePrinter)
+                .println("Congratulations! You have completed the quiz!")
+    }
+
 }
 

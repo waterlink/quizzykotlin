@@ -1,10 +1,15 @@
 package business
 
 import org.junit.Assert
+import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.ExpectedException
 import java.util.*
 
 class `Oliver receives one question at a time - acceptance test` {
+
+    @get:Rule
+    val thrown = ExpectedException.none()
 
     // Given there are questions in the quiz
     private val first = Question(
@@ -42,6 +47,21 @@ class `Oliver receives one question at a time - acceptance test` {
         // Then I see that next question
         Assert.assertEquals(second, quiz.currentQuestion)
 
+    }
+
+    @Test
+    fun `can not move beyond the last question`() {
+
+        // Given I am on the last question
+        quiz.start()
+        quiz.moveToNextQuestion()
+
+        // Then I see that I have completed the quiz
+        thrown.expect(QuizCompletedException::class.java)
+        thrown.expectMessage("Quiz has been completed")
+
+        // When I move to the next question
+        quiz.moveToNextQuestion()
     }
 
     @Test
