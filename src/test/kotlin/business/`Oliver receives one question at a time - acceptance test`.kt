@@ -14,10 +14,12 @@ class `Oliver receives one question at a time - acceptance test` {
     // Given there are questions in the quiz
     private val first = Question(
             id = UUID.randomUUID().toString(),
-            title = "How to create a method with spaces in Kotlin?")
+            title = "How to create a method with spaces in Kotlin?",
+            answerOptions = emptyList())
     private val second = Question(
             id = UUID.randomUUID().toString(),
-            title = "How to create JUnit4 test function in Kotlin?")
+            title = "How to create JUnit4 test function in Kotlin?",
+            answerOptions = emptyList())
     private val questions = listOf(first, second)
     private val quiz = Quiz(
             id = UUID.randomUUID().toString(),

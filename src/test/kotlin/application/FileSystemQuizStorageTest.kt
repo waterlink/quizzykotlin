@@ -1,5 +1,6 @@
 package application
 
+import business.AnswerOption
 import business.Question
 import business.Quiz
 import business.QuizStorage
@@ -14,13 +15,17 @@ class FileSystemQuizStorageTest {
     private val quizId = UUID.randomUUID().toString()
     private val questionOneId = UUID.randomUUID().toString()
     private val questionTwoId = UUID.randomUUID().toString()
+    private val answerOptionOneId = UUID.randomUUID().toString()
+    private val answerOptionTwoId = UUID.randomUUID().toString()
 
     @After
     fun tearDown() {
         val files = listOf(
                 File("quizzyKotlinStorage/quizes/$quizId.json"),
                 File("quizzyKotlinStorage/questions/$questionOneId.json"),
-                File("quizzyKotlinStorage/questions/$questionTwoId.json"))
+                File("quizzyKotlinStorage/questions/$questionTwoId.json"),
+                File("quizzyKotlinStorage/answerOptions/$answerOptionOneId.json"),
+                File("quizzyKotlinStorage/answerOptions/$answerOptionTwoId.json"))
 
         files.forEach { it.delete() }
     }
@@ -63,10 +68,12 @@ class FileSystemQuizStorageTest {
         // Then I see that quiz with these questions
         val expectedQuestionOne = Question(
                 id = questionOneId,
-                title = "How to add your own methods on built-in classes?")
+                title = "How to add your own methods on built-in classes?",
+                answerOptions = emptyList())
         val expectedQuestionTwo = Question(
                 id = questionTwoId,
-                title = "How to auto-replace with @Deprecated annotation?")
+                title = "How to auto-replace with @Deprecated annotation?",
+                answerOptions = emptyList())
         val expectedQuestions = listOf(
                 expectedQuestionOne,
                 expectedQuestionTwo)
@@ -89,5 +96,76 @@ class FileSystemQuizStorageTest {
 
         // Then I receive no quiz
         assertEquals(null, quiz)
+    }
+
+    @Test
+    fun `loading quiz with question that has answer options`() {
+
+        // Given a quiz with question with answer options
+        File("quizzyKotlinStorage/quizes/$quizId.json")
+                .writeText("""
+                    |{
+                    |   "id": "$quizId",
+                    |   "title": "Quiz One"
+                    |}
+                """.trimMargin())
+
+        File("quizzyKotlinStorage/questions/$questionOneId.json")
+                .writeText("""
+                    |{
+                    |   "id": "$questionOneId",
+                    |   "quizId": "$quizId",
+                    |   "title": "Question One"
+                    |}
+                """.trimMargin())
+
+        File("quizzyKotlinStorage/answerOptions/$answerOptionOneId.json")
+                .writeText("""
+                    |{
+                    |   "id": "$answerOptionOneId",
+                    |   "questionId": "$questionOneId",
+                    |   "title": "Answer One"
+                    |}
+                """.trimMargin())
+
+        File("quizzyKotlinStorage/answerOptions/$answerOptionTwoId.json")
+                .writeText("""
+                    |{
+                    |   "id": "$answerOptionTwoId",
+                    |   "questionId": "$questionOneId",
+                    |   "title": "Answer Two"
+                    |}
+                """.trimMargin())
+
+        val quizStorage: QuizStorage = FileSystemQuizStorage()
+
+        // When I load that quiz
+        val quiz = quizStorage.load(quizId)
+
+        // Then I see quiz with question with answer options
+        val expectedAnswerOptionOne = AnswerOption(
+                id = answerOptionOneId,
+                title = "Answer One")
+
+        val expectedAnswerOptionTwo = AnswerOption(
+                id = answerOptionTwoId,
+                title = "Answer Two")
+
+        val expectedAnswerOptions = listOf(
+                expectedAnswerOptionOne,
+                expectedAnswerOptionTwo)
+                .sortedBy { it.id }
+
+        val expectedQuestion = Question(
+                id = questionOneId,
+                title = "Question One",
+                answerOptions = expectedAnswerOptions)
+
+        val expectedQuiz = Quiz(
+                id = quizId,
+                questions = listOf(expectedQuestion))
+
+        assertEquals(expectedQuiz, quiz)
+
     }
 }

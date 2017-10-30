@@ -26,15 +26,18 @@ class `Present The Next Question to Oliver` {
         // Given there are multiple questions in the quiz
         val questionOne = Question(
                 id = UUID.randomUUID().toString(),
-                title = "How about Question One?")
+                title = "How about Question One?",
+                answerOptions = emptyList())
 
         val questionTwo = Question(
                 id = UUID.randomUUID().toString(),
-                title = "How about Question Two?")
+                title = "How about Question Two?",
+                answerOptions = emptyList())
 
         val questionThree = Question(
                 id = UUID.randomUUID().toString(),
-                title = "How about Question Three?")
+                title = "How about Question Three?",
+                answerOptions = emptyList())
 
         val questions = listOf(
                 questionOne,
@@ -70,6 +73,8 @@ class `Present The Next Question to Oliver` {
                 .println("""
                     |Current question: How about Question One?
                     |
+                    |
+                    |
                     |    type "next" to advance to the next question
                     |    type "quit" to abort the quiz and exit
                     |
@@ -78,6 +83,8 @@ class `Present The Next Question to Oliver` {
                 .println("""
                     |Current question: How about Question Two?
                     |
+                    |
+                    |
                     |    type "next" to advance to the next question
                     |    type "quit" to abort the quiz and exit
                     |
@@ -85,6 +92,8 @@ class `Present The Next Question to Oliver` {
         verify(commandLinePrinter)
                 .println("""
                     |Current question: How about Question Three?
+                    |
+                    |
                     |
                     |    type "next" to advance to the next question
                     |    type "quit" to abort the quiz and exit
@@ -97,7 +106,8 @@ class `Present The Next Question to Oliver` {
         // Given I am on the last question of the quiz
         val question = Question(
                 id = UUID.randomUUID().toString(),
-                title = "How about Question One?")
+                title = "How about Question One?",
+                answerOptions = emptyList())
 
         val quiz = Quiz(
                 id = UUID.randomUUID().toString(),
@@ -123,6 +133,8 @@ class `Present The Next Question to Oliver` {
         verify(commandLinePrinter)
                 .println("""
                     |Current question: How about Question One?
+                    |
+                    |
                     |
                     |    type "next" to advance to the next question
                     |    type "quit" to abort the quiz and exit

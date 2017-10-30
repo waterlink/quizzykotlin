@@ -93,8 +93,11 @@ class CommandLineApplication(
     }
 
     private fun renderCurrentQuestion(result: Question) {
+        val answerOptions = result.answerOptions.map { it.title }
+
         val view = CurrentQuestionView(
                 title = result.title,
+                answerOptions = answerOptions,
                 commandLinePrinter = commandLinePrinter)
         view.render()
     }

@@ -1,8 +1,10 @@
 package application
 
+import business.AnswerOption
 import business.Question
 import business.Quiz
 import business.QuizStorage
+import infrastructure.AnswerOptionsRepository
 import infrastructure.QuestionsRepository
 import infrastructure.QuizEntity
 import infrastructure.QuizesRepository
@@ -12,6 +14,7 @@ class FileSystemQuizStorage : QuizStorage {
 
     private val quizesRepository = QuizesRepository()
     private val questionsRepository = QuestionsRepository()
+    private val answerOptionsRepository = AnswerOptionsRepository()
 
     override fun load(id: String): Quiz? {
         val quizEntity: QuizEntity
@@ -26,8 +29,17 @@ class FileSystemQuizStorage : QuizStorage {
                 .findAllByQuizId(quizId = id)
 
         val questions = questionEntities.map {
+            val answerOptionEntities = answerOptionsRepository
+                    .findAllByQuestionId(questionId = it.id)
+
+            val answerOptions = answerOptionEntities.map {
+                AnswerOption(id = it.id,
+                        title = it.title)
+            }
+
             Question(id = it.id,
-                    title = it.title)
+                    title = it.title,
+                    answerOptions = answerOptions)
         }
 
         return Quiz(id = quizEntity.id,
