@@ -6,7 +6,9 @@ class UnknownUserInputView(
     fun render() {
 
         commandLinePrinter.println("""
-            |Unknown user input
+            |Unknown user input "hello"
+            |
+            |Please use one of the following commands:
             |
             |    type "next" to advance to the next question
             |    type "quit" to abort the quiz and exit
