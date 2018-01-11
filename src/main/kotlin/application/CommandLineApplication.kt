@@ -47,7 +47,7 @@ class CommandLineApplication(
                 WantsQuitUserIntent()
             }
 
-            else -> throw RuntimeException("unknown user input")
+            else -> UnknownUserIntent()
         }
     }
 
