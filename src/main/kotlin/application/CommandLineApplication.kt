@@ -64,7 +64,9 @@ class CommandLineApplication(
     }
 
     private fun handleUnknownUserIntent(userIntent: UnknownUserIntent) {
-        val view = UnknownUserInputView(commandLinePrinter)
+        val view = UnknownUserInputView(
+                userInput = userIntent.userInput,
+                commandLinePrinter = commandLinePrinter)
         view.render()
     }
 
