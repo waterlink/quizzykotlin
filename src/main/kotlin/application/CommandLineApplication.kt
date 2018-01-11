@@ -64,7 +64,8 @@ class CommandLineApplication(
     }
 
     private fun handleUnknownUserIntent(userIntent: UnknownUserIntent) {
-
+        val view = UnknownUserInputView(commandLinePrinter)
+        view.render()
     }
 
     private fun startQuiz(userIntent: StartQuizUserIntent): Question? {
