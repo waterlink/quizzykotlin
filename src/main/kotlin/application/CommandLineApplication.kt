@@ -34,6 +34,7 @@ class CommandLineApplication(
         when (userIntent) {
             is StartQuizUserIntent -> handleStartQuiz(userIntent)
             is NextQuestionUserIntent -> handleNextQuestion(userIntent)
+            is UnknownUserIntent -> handleUnknownUserIntent(userIntent)
             else -> throw RuntimeException("unknown user intent")
         }
     }
@@ -60,6 +61,10 @@ class CommandLineApplication(
     private fun handleNextQuestion(userIntent: NextQuestionUserIntent) {
         val result = moveToNextQuestion() ?: return
         renderCurrentQuestion(result)
+    }
+
+    private fun handleUnknownUserIntent(userIntent: UnknownUserIntent) {
+
     }
 
     private fun startQuiz(userIntent: StartQuizUserIntent): Question? {
