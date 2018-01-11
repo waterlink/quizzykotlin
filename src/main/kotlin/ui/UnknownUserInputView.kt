@@ -1,12 +1,13 @@
 package ui
 
 class UnknownUserInputView(
+        private val userInput: String,
         private val commandLinePrinter: CommandLinePrinter) {
 
     fun render() {
 
         commandLinePrinter.println("""
-            |Unknown user input "hello"
+            |Unknown user input "$userInput"
             |
             |Please use one of the following commands:
             |
