@@ -4,16 +4,14 @@ class UnknownUserInputView(
         private val userInput: String,
         private val commandLinePrinter: CommandLinePrinter) {
 
-    fun render() {
+    private val userCommandsPartialView = UserCommandsPartialView()
 
+    fun render() {
         commandLinePrinter.println("""
             |Unknown user input "$userInput"
             |
             |Please use one of the following commands:
-            |
-            |    type "next" to advance to the next question
-            |    type "quit" to abort the quiz and exit
-            |
+            |${userCommandsPartialView.render()}
         """.trimMargin())
     }
 
