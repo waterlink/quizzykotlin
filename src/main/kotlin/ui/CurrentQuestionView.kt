@@ -8,8 +8,9 @@ class CurrentQuestionView(
     private val letters = listOf(
             "A", "B", "C", "D", "E", "F", "G", "H")
 
-    fun render() {
+    private val userCommandsPartialView = UserCommandsPartialView()
 
+    fun render() {
         val renderedAnswerOptions = answerOptions
                 .mapIndexed { index, option ->
                     "${letters[index]}. $option"
@@ -19,10 +20,7 @@ class CurrentQuestionView(
             |Current question: $title
             |
             |$renderedAnswerOptions
-            |
-            |    type "next" to advance to the next question
-            |    type "quit" to abort the quiz and exit
-            |
+            |${userCommandsPartialView.render()}
         """.trimMargin())
     }
 
