@@ -156,9 +156,28 @@ class `Viewing And Choosing Answer Options` {
                 underlyingQuizStorage = quizStorage)
 
         // When I choose answer option “B”
+        given(commandLineUser.readCommand())
+                .willReturn(
+                        "B",
+                        "next",
+                        "quit")
+
+        application.run()
 
         // Then I see that answer option “B” is chosen
         // And I see that answer options “A” and “C” are not chosen
+        verify(commandLinePrinter)
+                .println("""
+                    |Current question: What is raw string literal for?
+                    |
+                    | A. Multiline string
+                    |[B] Shorthand for list of strings
+                    | C. There is no such feature in Kotlin
+                    |
+                    |    type "next" to advance to the next question
+                    |    type "quit" to abort the quiz and exit
+                    |
+                """.trimMargin())
     }
 }
 
