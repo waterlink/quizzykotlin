@@ -13,7 +13,7 @@ import ui.CommandLinePrinter
 import ui.CommandLineUser
 import java.util.*
 
-class `Introduce Answer Options For Each Question` {
+class `Viewing And Choosing Answer Options` {
 
     private val commandLineUser =
             mock(CommandLineUser::class.java)
