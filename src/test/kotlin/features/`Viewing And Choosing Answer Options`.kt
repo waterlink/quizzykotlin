@@ -110,5 +110,55 @@ class `Viewing And Choosing Answer Options` {
 
 
     }
+
+    @Test
+    fun `user can select an answer option`() {
+        // Given there are answer options
+        //      “A”, “B” and “C” for a question in a quiz
+        val answerOne = AnswerOption(
+                id = UUID.randomUUID().toString(),
+                title = "Multiline string")
+        val answerTwo = AnswerOption(
+                id = UUID.randomUUID().toString(),
+                title = "Shorthand for list of strings")
+        val answerThree = AnswerOption(
+                id = UUID.randomUUID().toString(),
+                title = "There is no such feature in Kotlin")
+        val questionOne = Question(
+                id = UUID.randomUUID().toString(),
+                title = "What is raw string literal for?",
+                answerOptions = listOf(
+                        answerOne,
+                        answerTwo,
+                        answerThree))
+
+        val questionTwo = Question(
+                id = UUID.randomUUID().toString(),
+                title = "How about Question Two?",
+                answerOptions = listOf())
+
+        val quiz = Quiz(
+                id = UUID.randomUUID().toString(),
+                questions = listOf(
+                        questionOne,
+                        questionTwo))
+
+        val quizStorage = TestOnlyQuizStorage(
+                quizes = listOf(quiz))
+
+        // And the quiz has been started
+        // And that question is current
+        val args = arrayOf("start-quiz", quiz.id)
+        val application = CommandLineApplication(
+                args = args,
+                commandLineUser = commandLineUser,
+                commandLinePrinter = commandLinePrinter,
+                underlyingQuizStorage = quizStorage)
+
+        // When I choose answer option “B”
+
+        // Then I see that answer option “B” is chosen
+        // And I see that answer options “A” and “C” are not chosen
+    }
 }
 
