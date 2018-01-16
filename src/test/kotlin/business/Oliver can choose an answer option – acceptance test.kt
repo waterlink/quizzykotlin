@@ -6,28 +6,28 @@ import java.util.*
 
 class `Oliver can choose an answer option – acceptance test` {
 
+    // Given there is a quiz with a question
+    //      with a few answer options
+    private val answerOne = AnswerOption(
+            id = UUID.randomUUID().toString(),
+            title = "Multiline string")
+    private val answerTwo = AnswerOption(
+            id = UUID.randomUUID().toString(),
+            title = "Shorthand for list of strings")
+
+    private val question = Question(
+            id = UUID.randomUUID().toString(),
+            title = "What is raw string literal for?",
+            answerOptions = listOf(
+                    answerOne,
+                    answerTwo))
+
+    private val quiz = Quiz(
+            id = UUID.randomUUID().toString(),
+            questions = listOf(question))
+
     @Test
     fun `there is no selected answer option initially`() {
-        // Given there is a quiz with a question
-        //      with a few answer options
-        val answerOne = AnswerOption(
-                id = UUID.randomUUID().toString(),
-                title = "Multiline string")
-        val answerTwo = AnswerOption(
-                id = UUID.randomUUID().toString(),
-                title = "Shorthand for list of strings")
-
-        val question = Question(
-                id = UUID.randomUUID().toString(),
-                title = "What is raw string literal for?",
-                answerOptions = listOf(
-                        answerOne,
-                        answerTwo))
-
-        val quiz = Quiz(
-                id = UUID.randomUUID().toString(),
-                questions = listOf(question))
-
         // When I start the quiz
         quiz.start()
 
@@ -41,26 +41,6 @@ class `Oliver can choose an answer option – acceptance test` {
 
     @Test
     fun `choosing an answer option by index`() {
-        // Given there is a quiz with a question
-        //      with a few answer options
-        val answerOne = AnswerOption(
-                id = UUID.randomUUID().toString(),
-                title = "Multiline string")
-        val answerTwo = AnswerOption(
-                id = UUID.randomUUID().toString(),
-                title = "Shorthand for list of strings")
-
-        val question = Question(
-                id = UUID.randomUUID().toString(),
-                title = "What is raw string literal for?",
-                answerOptions = listOf(
-                        answerOne,
-                        answerTwo))
-
-        val quiz = Quiz(
-                id = UUID.randomUUID().toString(),
-                questions = listOf(question))
-
         // And I have already started the quiz
         quiz.start()
 
