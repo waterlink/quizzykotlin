@@ -2,4 +2,4 @@ package business
 
 data class AnswerOption(val id: String,
                         val title: String,
-                        val isChosen: Boolean = false)
+                        var isChosen: Boolean = false)
