@@ -34,7 +34,7 @@ class `Oliver can choose an answer option – acceptance test` {
         // And navigate to that question
         val currentQuestion = quiz.currentQuestion!!
 
-        // Then I see that no answer option is selected
+        // Then I see that no answer option is chosen
         assertEquals(false, currentQuestion.answerOptions[0].isChosen)
         assertEquals(false, currentQuestion.answerOptions[1].isChosen)
     }
@@ -47,13 +47,34 @@ class `Oliver can choose an answer option – acceptance test` {
         // And I have already navigated to that question
         val currentQuestion = quiz.currentQuestion!!
 
-        // When I select an answer option
+        // When I choose an answer option
         currentQuestion.chooseAnswerOption(0)
 
-        // Then I see it is selected
+        // Then I see it is chosen
         assertEquals(true, currentQuestion.answerOptions[0].isChosen)
 
-        // And I see no other option is selected
+        // And I see no other option is chosen
         assertEquals(false, currentQuestion.answerOptions[1].isChosen)
+    }
+
+    @Test
+    fun `choosing different answer option after one was already chosen`() {
+        // And I have already started the quiz
+        quiz.start()
+
+        // And I have already navigated to that question
+        val currentQuestion = quiz.currentQuestion!!
+
+        // And I have already chosen the answer option
+        currentQuestion.chooseAnswerOption(0)
+
+        // When I choose another answer option
+        currentQuestion.chooseAnswerOption(1)
+
+        // Then I see that the new answer option is chosen
+        assertEquals(true, currentQuestion.answerOptions[1].isChosen)
+
+        // And I see that the previous answer option is not chosen anymore
+        assertEquals(false, currentQuestion.answerOptions[0].isChosen)
     }
 }
