@@ -1,5 +1,6 @@
 package business
 
+import application.CachingQuizStorage
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
@@ -118,7 +119,9 @@ class `Oliver can choose an answer option – acceptance test` {
     @Test
     fun `can choose the provided answer option by index from quiz storage`() {
         // And I have already started the quiz
-        val quizStorage = TestOnlyQuizStorage(quizes = listOf(quiz))
+        val underlyingQuizStorage = TestOnlyQuizStorage(
+                quizes = listOf(quiz))
+        val quizStorage = CachingQuizStorage(underlyingQuizStorage)
         val startQuizService = StartQuizService(quizStorage)
         startQuizService.startQuiz(quiz.id)
 
