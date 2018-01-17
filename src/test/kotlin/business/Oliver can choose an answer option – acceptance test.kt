@@ -114,4 +114,25 @@ class `Oliver can choose an answer option – acceptance test` {
         // When I choose the answer option with index >= count
         currentQuestion.chooseAnswerOption(2)
     }
+
+    @Test
+    fun `can choose the provided answer option by index from quiz storage`() {
+        // And I have already started the quiz
+        val quizStorage = TestOnlyQuizStorage(quizes = listOf(quiz))
+        val startQuizService = StartQuizService(quizStorage)
+        startQuizService.startQuiz(quiz.id)
+
+        // When I choose an answer option for that question
+        val service = ChooseAnswerOptionService(quizStorage)
+        val currentQuestion = service.chooseAnswerOption(
+                quizId = quiz.id,
+                index = 1)
+
+        // Then I see it is chosen
+        assertEquals(true, currentQuestion.answerOptions[1].isChosen)
+
+        // And I see no other option is chosen
+        assertEquals(false, currentQuestion.answerOptions[0].isChosen)
+    }
 }
+
