@@ -5,7 +5,7 @@ class ChooseAnswerOptionService(
 
     fun chooseAnswerOption(quizId: String, index: Int): Question {
         val quiz = quizStorage.load(quizId) ?:
-                return Question("", "", emptyList())
+                throw QuizNotFoundException(quizId)
 
         val currentQuestion = quiz.currentQuestion ?:
                 return Question("", "", emptyList())

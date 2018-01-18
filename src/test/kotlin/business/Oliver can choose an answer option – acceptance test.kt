@@ -137,5 +137,21 @@ class `Oliver can choose an answer option – acceptance test` {
         // And I see no other option is chosen
         assertEquals(false, currentQuestion.answerOptions[0].isChosen)
     }
+
+    @Test
+    fun `handles missing quiz`() {
+        // Given the quiz is missing from storage
+        val quizStorage = TestOnlyQuizStorage(quizes = listOf())
+
+        // Then I see that the quiz was not found
+        thrown.expect(QuizNotFoundException::class.java)
+        thrown.expectMessage("Unable to find Quiz with id = ${quiz.id}")
+
+        // When I choose an answer option for the current question
+        val service = ChooseAnswerOptionService(quizStorage)
+        val currentQuestion = service.chooseAnswerOption(
+                quizId = quiz.id,
+                index = 1)
+    }
 }
 
