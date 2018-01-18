@@ -8,7 +8,7 @@ class ChooseAnswerOptionService(
                 throw QuizNotFoundException(quizId)
 
         val currentQuestion = quiz.currentQuestion ?:
-                return Question("", "", emptyList())
+                throw QuizHasNoQuestionsException(quizId)
 
         currentQuestion.chooseAnswerOption(index)
 

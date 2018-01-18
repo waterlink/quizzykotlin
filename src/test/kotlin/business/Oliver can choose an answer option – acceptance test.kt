@@ -153,5 +153,21 @@ class `Oliver can choose an answer option – acceptance test` {
                 quizId = quiz.id,
                 index = 1)
     }
+
+    @Test
+    fun `handle missing current question`() {
+        // Given there is an un-started quiz
+        val quizStorage = TestOnlyQuizStorage(quizes = listOf(quiz))
+
+        // Then I see that the current question was not found
+        thrown.expect(QuizHasNoQuestionsException::class.java)
+        thrown.expectMessage("Quiz with id = ${quiz.id} has no questions")
+
+        // When I choose an answer option for the current question
+        val service = ChooseAnswerOptionService(quizStorage)
+        val currentQuestion = service.chooseAnswerOption(
+                quizId = quiz.id,
+                index = 1)
+    }
 }
 
