@@ -2,6 +2,7 @@ package application
 
 import business.*
 import ui.*
+import ui.AnswerOptionLetters.letters
 
 class CommandLineApplication(
         private val args: Array<String>,
@@ -48,7 +49,13 @@ class CommandLineApplication(
                 WantsQuitUserIntent()
             }
 
-            else -> UnknownUserIntent(userInput)
+            else -> {
+                if (letters.contains(userInput)) {
+                    ChooseAnswerOptionUserIntent(userInput)
+                } else {
+                    UnknownUserIntent(userInput)
+                }
+            }
         }
     }
 

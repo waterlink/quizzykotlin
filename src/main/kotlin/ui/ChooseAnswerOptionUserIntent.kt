@@ -1,3 +1,4 @@
 package ui
 
-class ChooseAnswerOptionUserIntent : UserIntent()
+class ChooseAnswerOptionUserIntent(val letter: String)
+    : UserIntent()
