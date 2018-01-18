@@ -139,7 +139,12 @@ class CommandLineApplication(
     }
 
     private fun renderCurrentQuestion(result: Question) {
-        val answerOptions = result.answerOptions.map { it.title }
+        val answerOptions = result.answerOptions.map {
+            AnswerOptionPresentation(
+                    title = it.title,
+                    isChosen = it.isChosen
+            )
+        }
 
         val view = CurrentQuestionView(
                 title = result.title,

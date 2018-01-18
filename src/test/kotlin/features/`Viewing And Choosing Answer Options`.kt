@@ -86,9 +86,9 @@ class `Viewing And Choosing Answer Options` {
                 .println("""
                     |Current question: What is raw string literal for?
                     |
-                    |A. Multiline string
-                    |B. Shorthand for list of strings
-                    |C. There is no such feature in Kotlin
+                    | A. Multiline string
+                    | B. Shorthand for list of strings
+                    | C. There is no such feature in Kotlin
                     |
                     |    type "next" to advance to the next question
                     |    type "quit" to abort the quiz and exit
@@ -100,8 +100,8 @@ class `Viewing And Choosing Answer Options` {
                 .println("""
                     |Current question: How about Question Two?
                     |
-                    |A. Yes. Give me more questions!
-                    |B. No! Please, no more questions!
+                    | A. Yes. Give me more questions!
+                    | B. No! Please, no more questions!
                     |
                     |    type "next" to advance to the next question
                     |    type "quit" to abort the quiz and exit
