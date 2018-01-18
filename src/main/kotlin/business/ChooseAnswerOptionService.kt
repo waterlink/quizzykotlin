@@ -6,8 +6,7 @@ class ChooseAnswerOptionService(
     fun chooseAnswerOption(quizId: String, index: Int): Question {
         val quiz = quizStorage.loadOrFail(quizId)
 
-        val currentQuestion = quiz.currentQuestion ?:
-                throw QuizHasNoQuestionsException(quizId)
+        val currentQuestion = quiz.getCurrentQuestionOrFail()
 
         currentQuestion.chooseAnswerOption(index)
 

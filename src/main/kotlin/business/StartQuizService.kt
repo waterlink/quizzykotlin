@@ -7,7 +7,7 @@ class StartQuizService(private val quizStorage: QuizStorage) {
 
         quiz.start()
 
-        return quiz.currentQuestion ?: throw QuizHasNoQuestionsException(id)
+        return quiz.getCurrentQuestionOrFail()
     }
 
 }

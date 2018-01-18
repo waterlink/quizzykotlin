@@ -7,8 +7,7 @@ class NextQuestionService(private val quizStorage: QuizStorage) {
 
         quiz.moveToNextQuestion()
 
-        return quiz.currentQuestion ?:
-                throw QuizHasNoQuestionsException(quizId)
+        return quiz.getCurrentQuestionOrFail()
     }
 
 }

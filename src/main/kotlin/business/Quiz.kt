@@ -27,6 +27,11 @@ class Quiz(val id: String,
                 questions = questions)
     }
 
+    fun getCurrentQuestionOrFail(): Question {
+        return currentQuestion ?:
+                throw QuizHasNoQuestionsException(id)
+    }
+
     override fun toString(): String {
         return "Quiz(id='$id', questions=$questions)"
     }
