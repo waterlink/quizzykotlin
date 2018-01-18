@@ -5,10 +5,10 @@ class ChooseAnswerOptionService(
 
     fun chooseAnswerOption(quizId: String, index: Int): Question {
         val quiz = quizStorage.load(quizId) ?:
-                throw QuizNotFoundException(quizId)
+                return Question("", "", emptyList())
 
         val currentQuestion = quiz.currentQuestion ?:
-                throw QuizHasNoQuestionsException(quizId)
+                return Question("", "", emptyList())
 
         currentQuestion.chooseAnswerOption(index)
 
