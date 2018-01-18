@@ -36,6 +36,8 @@ class CommandLineApplication(
             is StartQuizUserIntent -> handleStartQuiz(userIntent)
             is NextQuestionUserIntent -> handleNextQuestion(userIntent)
             is UnknownUserIntent -> handleUnknownUserIntent(userIntent)
+            is ChooseAnswerOptionUserIntent ->
+                handleChooseAnswerOptionUserIntent(userIntent)
             else -> throw RuntimeException("unknown user intent")
         }
     }
@@ -70,6 +72,19 @@ class CommandLineApplication(
         renderCurrentQuestion(result)
     }
 
+    private fun handleChooseAnswerOptionUserIntent(
+            userIntent: ChooseAnswerOptionUserIntent) {
+
+        val firstLetterCode = letters.first().codePointAt(0)
+        val letterCode = userIntent.letter.codePointAt(0)
+        val index = letterCode - firstLetterCode
+
+        val result = chooseAnswerOption(index) ?: return
+
+        renderCurrentQuestion(result)
+
+    }
+
     private fun handleUnknownUserIntent(userIntent: UnknownUserIntent) {
         val view = UnknownUserInputView(
                 userInput = userIntent.userInput,
@@ -101,6 +116,22 @@ class CommandLineApplication(
             renderQuizHasNoQuestions(e)
         } catch (e: QuizCompletedException) {
             renderQuizCompleted()
+        }
+
+        wantsQuit = true
+        return null
+    }
+
+    private fun chooseAnswerOption(index: Int): Question? {
+        val service = ChooseAnswerOptionService(
+                quizStorage = quizStorage)
+
+        try {
+            return service.chooseAnswerOption(quizId, index)
+        } catch (e: QuizNotFoundException) {
+            renderQuizNotFound(e)
+        } catch (e: QuizHasNoQuestionsException) {
+            renderQuizHasNoQuestions(e)
         }
 
         wantsQuit = true
