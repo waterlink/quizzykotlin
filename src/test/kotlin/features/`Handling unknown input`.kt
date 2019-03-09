@@ -1,16 +1,14 @@
 package features
 
 import application.CommandLineApplication
-import business.Question
-import business.Quiz
 import business.TestOnlyQuizStorage
+import helper.question
+import helper.quiz
 import org.junit.Test
 import org.mockito.BDDMockito.given
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.verify
+import org.mockito.Mockito.*
 import ui.CommandLinePrinter
 import ui.CommandLineUser
-import java.util.*
 
 class `Handling unknown input` {
 
@@ -23,24 +21,10 @@ class `Handling unknown input` {
     @Test
     fun `tell user that input is invalid and provide valid options`() {
         // Given I have started the quiz
-        val questionOne = Question(
-                id = UUID.randomUUID().toString(),
-                title = "What is raw string literal for?",
-                answerOptions = emptyList())
-
-        val questionTwo = Question(
-                id = UUID.randomUUID().toString(),
-                title = "How about Question Two?",
-                answerOptions = emptyList())
-
-        val quiz = Quiz(
-                id = UUID.randomUUID().toString(),
-                questions = listOf(
-                        questionOne,
-                        questionTwo))
-
-        val quizStorage = TestOnlyQuizStorage(
-                quizes = listOf(quiz))
+        val questionOne = question("What is raw string literal for?")
+        val questionTwo = question("How about Question Two?")
+        val quiz = quiz(questions = listOf(questionOne, questionTwo))
+        val quizStorage = TestOnlyQuizStorage(quizes = listOf(quiz))
 
         val args = arrayOf("start-quiz", quiz.id)
         val application = CommandLineApplication(

@@ -1,17 +1,15 @@
 package features
 
 import application.CommandLineApplication
-import business.AnswerOption
-import business.Question
-import business.Quiz
 import business.TestOnlyQuizStorage
+import helper.answer
+import helper.question
+import helper.quiz
 import org.junit.Test
 import org.mockito.BDDMockito.given
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.verify
+import org.mockito.Mockito.*
 import ui.CommandLinePrinter
 import ui.CommandLineUser
-import java.util.*
 
 class `Viewing And Choosing Answer Options` {
 
@@ -23,47 +21,23 @@ class `Viewing And Choosing Answer Options` {
 
     @Test
     fun `current question renders its answer options`() {
-
         // Given there are few answer options for
         //   any question in the quiz
-        val answerOne = AnswerOption(
-                id = UUID.randomUUID().toString(),
-                title = "Multiline string")
-        val answerTwo = AnswerOption(
-                id = UUID.randomUUID().toString(),
-                title = "Shorthand for list of strings")
-        val answerThree = AnswerOption(
-                id = UUID.randomUUID().toString(),
-                title = "There is no such feature in Kotlin")
-        val questionOne = Question(
-                id = UUID.randomUUID().toString(),
+        val questionOne = question(
                 title = "What is raw string literal for?",
-                answerOptions = listOf(
-                        answerOne,
-                        answerTwo,
-                        answerThree))
-
-        val answerFour = AnswerOption(
-                id = UUID.randomUUID().toString(),
-                title = "Yes. Give me more questions!")
-        val answerFive = AnswerOption(
-                id = UUID.randomUUID().toString(),
-                title = "No! Please, no more questions!")
-        val questionTwo = Question(
-                id = UUID.randomUUID().toString(),
+                answers = listOf(
+                        answer("Multiline string"),
+                        answer("Shorthand for list of strings"),
+                        answer("There is no such feature in Kotlin")
+                ))
+        val questionTwo = question(
                 title = "How about Question Two?",
-                answerOptions = listOf(
-                        answerFour,
-                        answerFive))
-
-        val quiz = Quiz(
-                id = UUID.randomUUID().toString(),
-                questions = listOf(
-                        questionOne,
-                        questionTwo))
-
-        val quizStorage = TestOnlyQuizStorage(
-                quizes = listOf(quiz))
+                answers = listOf(
+                        answer("Yes. Give me more questions!"),
+                        answer("No! Please, no more questions!")
+                ))
+        val quiz = quiz(questions = listOf(questionOne, questionTwo))
+        val quizStorage = TestOnlyQuizStorage(quizes = listOf(quiz))
 
         // When I start that quiz
         val args = arrayOf("start-quiz", quiz.id)
@@ -107,44 +81,22 @@ class `Viewing And Choosing Answer Options` {
                     |    type "quit" to abort the quiz and exit
                     |
                 """.trimMargin())
-
-
     }
 
     @Test
     fun `user can select an answer option`() {
         // Given there are answer options
         //      “A”, “B” and “C” for a question in a quiz
-        val answerOne = AnswerOption(
-                id = UUID.randomUUID().toString(),
-                title = "Multiline string")
-        val answerTwo = AnswerOption(
-                id = UUID.randomUUID().toString(),
-                title = "Shorthand for list of strings")
-        val answerThree = AnswerOption(
-                id = UUID.randomUUID().toString(),
-                title = "There is no such feature in Kotlin")
-        val questionOne = Question(
-                id = UUID.randomUUID().toString(),
+        val questionOne = question(
                 title = "What is raw string literal for?",
-                answerOptions = listOf(
-                        answerOne,
-                        answerTwo,
-                        answerThree))
-
-        val questionTwo = Question(
-                id = UUID.randomUUID().toString(),
-                title = "How about Question Two?",
-                answerOptions = listOf())
-
-        val quiz = Quiz(
-                id = UUID.randomUUID().toString(),
-                questions = listOf(
-                        questionOne,
-                        questionTwo))
-
-        val quizStorage = TestOnlyQuizStorage(
-                quizes = listOf(quiz))
+                answers = listOf(
+                        answer("Multiline string"),
+                        answer("Shorthand for list of strings"),
+                        answer("There is no such feature in Kotlin")
+                ))
+        val questionTwo = question("How about Question Two?")
+        val quiz = quiz(questions = listOf(questionOne, questionTwo))
+        val quizStorage = TestOnlyQuizStorage(quizes = listOf(quiz))
 
         // And the quiz has been started
         // And that question is current

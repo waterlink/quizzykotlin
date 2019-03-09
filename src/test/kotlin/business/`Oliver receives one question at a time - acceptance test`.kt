@@ -1,10 +1,11 @@
 package business
 
+import helper.question
+import helper.quiz
 import org.junit.Assert
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
-import java.util.*
 
 class `Oliver receives one question at a time - acceptance test` {
 
@@ -12,18 +13,10 @@ class `Oliver receives one question at a time - acceptance test` {
     val thrown = ExpectedException.none()
 
     // Given there are questions in the quiz
-    private val first = Question(
-            id = UUID.randomUUID().toString(),
-            title = "How to create a method with spaces in Kotlin?",
-            answerOptions = emptyList())
-    private val second = Question(
-            id = UUID.randomUUID().toString(),
-            title = "How to create JUnit4 test function in Kotlin?",
-            answerOptions = emptyList())
+    private val first = question("How to create a method with spaces in Kotlin?")
+    private val second = question("How to create JUnit4 test function in Kotlin?")
     private val questions = listOf(first, second)
-    private val quiz = Quiz(
-            id = UUID.randomUUID().toString(),
-            questions = questions)
+    private val quiz = quiz(questions = questions)
 
     @Test
     fun `there should be one current question when quiz starts`() {

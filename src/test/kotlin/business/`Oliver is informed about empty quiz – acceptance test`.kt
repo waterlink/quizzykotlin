@@ -1,9 +1,9 @@
 package business
 
+import helper.quiz
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
-import java.util.*
 
 class `Oliver is informed about empty quiz – acceptance test` {
 
@@ -13,9 +13,7 @@ class `Oliver is informed about empty quiz – acceptance test` {
     @Test
     fun `fails with QuizHasNoQuestionsException when quiz is empty`() {
         // Given there is a quiz without any questions
-        val quiz = Quiz(
-                id = UUID.randomUUID().toString(),
-                questions = emptyList())
+        val quiz = quiz()
         val quizStorage = TestOnlyQuizStorage(listOf(quiz))
         val startQuizService = StartQuizService(quizStorage)
 

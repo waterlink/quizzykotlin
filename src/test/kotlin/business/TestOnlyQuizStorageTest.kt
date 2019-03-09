@@ -1,21 +1,16 @@
 package business
 
-import org.junit.Assert.*
+import helper.quiz
+import org.junit.Assert.assertNotSame
 import org.junit.Test
-import java.util.*
 
 class TestOnlyQuizStorageTest {
 
     @Test
     fun `instantiates different object on every load`() {
         // Given I have already loaded a quiz object
-        val quizOne = Quiz(
-                id = UUID.randomUUID().toString(),
-                questions = emptyList())
-
-        val quizTwo = Quiz(
-                id = UUID.randomUUID().toString(),
-                questions = emptyList())
+        val quizOne = quiz()
+        val quizTwo = quiz()
 
         val quizes = listOf(quizOne, quizTwo)
         val quizStorage = TestOnlyQuizStorage(quizes)

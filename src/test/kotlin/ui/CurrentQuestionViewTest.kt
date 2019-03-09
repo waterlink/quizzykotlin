@@ -1,8 +1,7 @@
 package ui
 
 import org.junit.Test
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.verify
+import org.mockito.Mockito.*
 
 class CurrentQuestionViewTest {
 

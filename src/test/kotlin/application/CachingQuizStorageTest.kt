@@ -1,18 +1,15 @@
 package application
 
-import business.Quiz
 import business.QuizStorage
 import business.TestOnlyQuizStorage
+import helper.quiz
 import org.junit.Assert
 import org.junit.Test
-import java.util.*
 
 class CachingQuizStorageTest {
 
     // Given there is one quiz in the quiz storage
-    private val quiz = Quiz(
-            id = UUID.randomUUID().toString(),
-            questions = emptyList())
+    private val quiz = quiz()
 
     private val quizStorage: QuizStorage = TestOnlyQuizStorage(
             quizes = listOf(quiz))

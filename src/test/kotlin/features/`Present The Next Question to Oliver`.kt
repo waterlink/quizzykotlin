@@ -1,17 +1,16 @@
 package features
 
 import application.CommandLineApplication
-import business.Question
-import business.Quiz
 import business.QuizStorage
 import business.TestOnlyQuizStorage
+import helper.question
+import helper.quiz
 import org.junit.Test
 import org.mockito.BDDMockito.given
 import org.mockito.Mockito
 import org.mockito.Mockito.verify
 import ui.CommandLinePrinter
 import ui.CommandLineUser
-import java.util.*
 
 class `Present The Next Question to Oliver` {
 
@@ -24,29 +23,10 @@ class `Present The Next Question to Oliver` {
     @Test
     fun `move to the next question after starting`() {
         // Given there are multiple questions in the quiz
-        val questionOne = Question(
-                id = UUID.randomUUID().toString(),
-                title = "How about Question One?",
-                answerOptions = emptyList())
-
-        val questionTwo = Question(
-                id = UUID.randomUUID().toString(),
-                title = "How about Question Two?",
-                answerOptions = emptyList())
-
-        val questionThree = Question(
-                id = UUID.randomUUID().toString(),
-                title = "How about Question Three?",
-                answerOptions = emptyList())
-
-        val questions = listOf(
-                questionOne,
-                questionTwo,
-                questionThree)
-
-        val quiz = Quiz(
-                id = UUID.randomUUID().toString(),
-                questions = questions)
+        val questionOne = question("How about Question One?")
+        val questionTwo = question("How about Question Two?")
+        val questionThree = question("How about Question Three?")
+        val quiz = quiz(questions = listOf(questionOne, questionTwo, questionThree))
 
         val quizStorage: QuizStorage = TestOnlyQuizStorage(
                 quizes = listOf(quiz))
@@ -104,15 +84,8 @@ class `Present The Next Question to Oliver` {
     @Test
     fun `reaching the end of the quiz when moving to the next question`() {
         // Given I am on the last question of the quiz
-        val question = Question(
-                id = UUID.randomUUID().toString(),
-                title = "How about Question One?",
-                answerOptions = emptyList())
-
-        val quiz = Quiz(
-                id = UUID.randomUUID().toString(),
-                questions = listOf(question))
-
+        val question = question("How about Question One?")
+        val quiz = quiz(questions = listOf(question))
         val quizStorage: QuizStorage = TestOnlyQuizStorage(
                 quizes = listOf(quiz))
 

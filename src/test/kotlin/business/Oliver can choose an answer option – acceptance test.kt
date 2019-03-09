@@ -1,11 +1,13 @@
 package business
 
 import application.CachingQuizStorage
+import helper.answer
+import helper.question
+import helper.quiz
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
-import java.util.*
 
 class `Oliver can choose an answer option – acceptance test` {
 
@@ -14,23 +16,14 @@ class `Oliver can choose an answer option – acceptance test` {
 
     // Given there is a quiz with a question
     //      with a few answer options
-    private val answerOne = AnswerOption(
-            id = UUID.randomUUID().toString(),
-            title = "Multiline string")
-    private val answerTwo = AnswerOption(
-            id = UUID.randomUUID().toString(),
-            title = "Shorthand for list of strings")
-
-    private val question = Question(
-            id = UUID.randomUUID().toString(),
+    private val question = question(
             title = "What is raw string literal for?",
-            answerOptions = listOf(
-                    answerOne,
-                    answerTwo))
+            answers = listOf(
+                    answer("Multiline string"),
+                    answer("Shorthand for list of strings")
+            ))
 
-    private val quiz = Quiz(
-            id = UUID.randomUUID().toString(),
-            questions = listOf(question))
+    private val quiz = quiz(questions = listOf(question))
 
     @Test
     fun `there is no selected answer option initially`() {
