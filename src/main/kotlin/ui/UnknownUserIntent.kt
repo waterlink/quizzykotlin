@@ -1,3 +1,4 @@
 package ui
 
-class UnknownUserIntent(val userInput: String) : UserIntent()
+data class UnknownUserIntent(val userInput: String)
+    : UserIntent()

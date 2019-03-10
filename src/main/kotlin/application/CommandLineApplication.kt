@@ -4,7 +4,7 @@ import business.*
 import ui.*
 import ui.AnswerOptionLetters.letters
 
-class CommandLineApplication(
+open class CommandLineApplication(
         private val args: Array<String>,
         private val commandLineUser: CommandLineUser,
         private val commandLinePrinter: CommandLinePrinter,
@@ -23,12 +23,17 @@ class CommandLineApplication(
         while (!wantsQuit) {
 
             handleUserIntent(userIntent)
+            if (wantsQuit) return
 
             val userInput = commandLineUser.readCommand()
 
             userIntent = determineUserIntent(userInput)
 
         }
+    }
+
+    fun requestQuit() {
+        wantsQuit = true
     }
 
     private fun handleUserIntent(userIntent: UserIntent) {
@@ -39,29 +44,15 @@ class CommandLineApplication(
             is UnknownUserIntent -> handleUnknownUserIntent(userIntent)
             is ChooseAnswerOptionUserIntent ->
                 handleChooseAnswerOptionUserIntent(userIntent)
+            is WantsQuitUserIntent -> requestQuit()
             else -> throw RuntimeException("unknown user intent")
         }
     }
 
+    private val userIntentRecognizer = UserIntentRecognizer()
+
     private fun determineUserIntent(userInput: String): UserIntent {
-        return when (userInput) {
-            "next" -> NextQuestionUserIntent()
-
-            "results" -> ShowResultsUserIntent()
-
-            "quit" -> {
-                wantsQuit = true
-                WantsQuitUserIntent()
-            }
-
-            else -> {
-                if (letters.contains(userInput)) {
-                    ChooseAnswerOptionUserIntent(userInput)
-                } else {
-                    UnknownUserIntent(userInput)
-                }
-            }
-        }
+        return userIntentRecognizer.recognize(userInput)
     }
 
     private fun handleStartQuiz(userIntent: StartQuizUserIntent) {
