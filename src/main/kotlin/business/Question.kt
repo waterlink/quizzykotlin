@@ -28,4 +28,13 @@ data class Question(val id: String,
             )
         }
     }
+
+    fun chosenAnswerOption(): AnswerOption? {
+        return answerOptions.find { it.isChosen }
+    }
+
+    fun correctAnswerOption(): AnswerOption {
+        return answerOptions.find { it.isCorrect }
+                ?: throw QuestionHasNoCorrectAnswer(id)
+    }
 }

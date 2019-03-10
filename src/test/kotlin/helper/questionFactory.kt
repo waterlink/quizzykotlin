@@ -36,3 +36,4 @@ fun answer(
 )
 
 val AnswerOption.correct get() = copy(isCorrect = true)
+val AnswerOption.chosen get() = copy(isChosen = true)

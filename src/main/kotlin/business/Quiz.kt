@@ -28,8 +28,7 @@ class Quiz(val id: String,
     }
 
     fun getCurrentQuestionOrFail(): Question {
-        return currentQuestion ?:
-                throw QuizHasNoQuestionsException(id)
+        return currentQuestion ?: throw QuizHasNoQuestionsException(id)
     }
 
     override fun toString(): String {
@@ -52,5 +51,19 @@ class Quiz(val id: String,
         return id.hashCode()
     }
 
+    fun questionCount(): Int {
+        return questions.size
+    }
 
+    fun answeredCorrectly(): List<Question> {
+        return questions.filter {
+            it.chosenAnswerOption() == it.correctAnswerOption()
+        }
+    }
+
+    fun answeredIncorrectly(): List<Question> {
+        return questions.filter {
+            it.chosenAnswerOption() != it.correctAnswerOption()
+        }
+    }
 }

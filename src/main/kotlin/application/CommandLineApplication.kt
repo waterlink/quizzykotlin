@@ -6,7 +6,7 @@ import ui.*
 open class CommandLineApplication(
         private val args: Array<String>,
         private val commandLineUser: CommandLineUser,
-        private val commandLinePrinter: CommandLinePrinter,
+        commandLinePrinter: CommandLinePrinter,
         underlyingQuizStorage: QuizStorage) {
 
     private val quizStorage: QuizStorage = CachingQuizStorage(
