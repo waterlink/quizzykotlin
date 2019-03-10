@@ -98,7 +98,7 @@ class `Present The Next Question to Oliver` {
 
         // When I choose to move to the next question
         given(commandLineUser.readCommand())
-                .willReturn("next")
+                .willReturn("next", "quit")
 
         application.run()
 
@@ -114,7 +114,13 @@ class `Present The Next Question to Oliver` {
                     |
                 """.trimMargin())
         verify(commandLinePrinter)
-                .println("Congratulations! You have completed the quiz!")
+                .println("""
+                    |Congratulations! You have completed the quiz!
+                    |
+                    |    type "results" to view your quiz results
+                    |    type "quit" to exit
+                    |
+                """.trimMargin())
     }
 
 }

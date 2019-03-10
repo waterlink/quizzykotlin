@@ -35,6 +35,7 @@ class CommandLineApplication(
         when (userIntent) {
             is StartQuizUserIntent -> handleStartQuiz(userIntent)
             is NextQuestionUserIntent -> handleNextQuestion(userIntent)
+            is ShowResultsUserIntent -> handleShowResults(userIntent)
             is UnknownUserIntent -> handleUnknownUserIntent(userIntent)
             is ChooseAnswerOptionUserIntent ->
                 handleChooseAnswerOptionUserIntent(userIntent)
@@ -45,6 +46,8 @@ class CommandLineApplication(
     private fun determineUserIntent(userInput: String): UserIntent {
         return when (userInput) {
             "next" -> NextQuestionUserIntent()
+
+            "results" -> ShowResultsUserIntent()
 
             "quit" -> {
                 wantsQuit = true
@@ -70,6 +73,11 @@ class CommandLineApplication(
     private fun handleNextQuestion(userIntent: NextQuestionUserIntent) {
         val result = moveToNextQuestion() ?: return
         renderCurrentQuestion(result)
+    }
+
+    private fun handleShowResults(userIntent: ShowResultsUserIntent) {
+        val view = ResultsView(commandLinePrinter)
+        view.render()
     }
 
     private fun handleChooseAnswerOptionUserIntent(
@@ -114,11 +122,11 @@ class CommandLineApplication(
             return service.moveToNextQuestion(quizId)
         } catch (e: QuizHasNoQuestionsException) {
             renderQuizHasNoQuestions(e)
+            wantsQuit = true
         } catch (e: QuizCompletedException) {
             renderQuizCompleted()
         }
 
-        wantsQuit = true
         return null
     }
 
