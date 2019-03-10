@@ -1,5 +1,6 @@
 {
   "id": "e5ec2e39-afbf-4611-a72f-35b3b163f0d2",
   "questionId": "eff4151f-26c2-4eb1-9912-4457b006f0ec",
-  "title": "Fence the method name with back-ticks"
+  "title": "Fence the method name with back-ticks",
+  "isCorrect": true
 }
