@@ -121,4 +121,40 @@ class `Show Results to Oliver` {
             |
         """.trimMargin())
     }
+
+    @Test
+    fun `getting some questions wrong and some right`() {
+        // And I have answered all questions
+        // And I have gotten two questions wrong
+        commands.addAll(listOf(
+                "B", "next",
+                "A", "next",
+                "A", "next"
+        ))
+
+        // When I type "results" command
+        commands.addAll(listOf("results", "quit"))
+
+        application.run()
+
+        // Then I see that my score is "1 out of 3"
+        verify(commandLinePrinter).println("""
+            |Your score is: 1 out of 3
+        """.trimMargin())
+
+        // And I see the 2 questions I got wrong
+        // And for each question I see my answer and correct answer
+        verify(commandLinePrinter).println("""
+            |You got 2 wrong questions:
+            |
+            |   Question: What is raw string literal for?
+            |   Incorrect: Shorthand for list of strings
+            |   Correct: Multiline string
+            |
+            |   Question: How about Question Three? Last one, I promise!
+            |   Incorrect: No! I want more questions!
+            |   Correct: Finally…
+            |
+        """.trimMargin())
+    }
 }

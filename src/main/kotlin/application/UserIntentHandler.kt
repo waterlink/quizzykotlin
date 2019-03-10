@@ -37,8 +37,8 @@ class UserIntentHandler(
     }
 
     private fun handleShowResults(userIntent: ShowResultsUserIntent) {
-        val view = ResultsView(printer)
-        view.render()
+        val results = getScoringResults() ?: return
+        renderResults(results)
     }
 
     private fun handleChooseAnswerOptionUserIntent(
@@ -107,6 +107,21 @@ class UserIntentHandler(
         return null
     }
 
+    private fun getScoringResults(): ScoringResults? {
+        val service = ScoringService(quizStorage)
+
+        try {
+            return service.score(quizId)
+        } catch (e: QuizNotFoundException) {
+            renderQuizNotFound(e)
+        } catch (e: QuestionHasNoCorrectAnswer) {
+            renderQuestionHasNoCorrectAnswer(e)
+        }
+
+        application.requestQuit()
+        return null
+    }
+
     private fun renderCurrentQuestion(result: Question) {
         val answerOptions = result.answerOptions.map {
             AnswerOptionPresentation(
@@ -119,6 +134,13 @@ class UserIntentHandler(
                 title = result.title,
                 answerOptions = answerOptions,
                 commandLinePrinter = printer)
+        view.render()
+    }
+
+    private fun renderResults(results: ScoringResults) {
+        val view = ResultsView(
+                commandLinePrinter = printer,
+                results = results)
         view.render()
     }
 
@@ -137,6 +159,13 @@ class UserIntentHandler(
 
     private fun renderQuizHasNoQuestions(e: QuizHasNoQuestionsException) {
         val errorView = QuizHasNoQuestionsView(
+                message = e.message,
+                commandLinePrinter = printer)
+        errorView.render()
+    }
+
+    private fun renderQuestionHasNoCorrectAnswer(e: QuestionHasNoCorrectAnswer) {
+        val errorView = QuestionHasNoCorrectAnswerView(
                 message = e.message,
                 commandLinePrinter = printer)
         errorView.render()

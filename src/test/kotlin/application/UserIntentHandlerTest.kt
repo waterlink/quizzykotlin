@@ -1,10 +1,7 @@
 package application
 
 import business.TestOnlyQuizStorage
-import helper.answer
-import helper.correct
-import helper.question
-import helper.quiz
+import helper.*
 import org.junit.Test
 import org.mockito.Mockito.*
 import ui.*
@@ -23,11 +20,24 @@ class UserIntentHandlerTest {
             ))
     ))
     private val emptyQuiz = quiz()
-    private val oneQuestionQuiz = quiz(questions = listOf(
-            question("A single question")
+    private val oneQuestion = question("A single question")
+    private val oneQuestionQuiz = quiz(questions = listOf(oneQuestion))
+    private val finishedQuiz = quiz(questions = listOf(
+            question("The question hidden in plain sight", answers = listOf(
+                    answer("What is the question?").chosen,
+                    answer("What is the answer?").correct
+            )),
+            question("What is this interesting question?", answers = listOf(
+                    answer("I don't see any question"),
+                    answer("Interesting, indeed!").correct.chosen
+            )),
+            question("Is this the last question?", answers = listOf(
+                    answer("Yes").correct,
+                    answer("No").chosen
+            ))
     ))
     private val quizStorage = CachingQuizStorage(TestOnlyQuizStorage(
-            quizes = listOf(quiz, emptyQuiz, oneQuestionQuiz)))
+            quizes = listOf(quiz, emptyQuiz, oneQuestionQuiz, finishedQuiz)))
 
     private val handler = UserIntentHandler(
             application = application,
@@ -61,6 +71,13 @@ class UserIntentHandlerTest {
             printer = printer,
             quizStorage = quizStorage,
             initialQuizId = "non-existing"
+    )
+
+    private val finishedQuizHandler = UserIntentHandler(
+            application = application,
+            printer = printer,
+            quizStorage = quizStorage,
+            initialQuizId = finishedQuiz.id
     )
 
     @Test
@@ -220,14 +237,63 @@ class UserIntentHandlerTest {
 
     @Test
     fun `handle – shows results`() {
-        handler.handle(ShowResultsUserIntent())
+        finishedQuizHandler.handle(ShowResultsUserIntent())
 
         verify(printer).println("""
-            |Your score is: 3 out of 3
+            |Your score is: 1 out of 3
+        """.trimMargin())
+
+        verify(printer).println("""
+            |You got 2 wrong questions:
+            |
+            |   Question: The question hidden in plain sight
+            |   Incorrect: What is the question?
+            |   Correct: What is the answer?
+            |
+            |   Question: Is this the last question?
+            |   Incorrect: No
+            |   Correct: Yes
+            |
         """.trimMargin())
 
         verifyNoMoreInteractions(printer)
         verifyZeroInteractions(application)
+    }
+
+    @Test
+    fun `handle – unable to show results when quiz not found`() {
+        nonExistingQuizHandler.handle(ShowResultsUserIntent())
+
+        verify(printer).println("""
+            |Error: Unable to find Quiz with id = non-existing
+        """.trimMargin())
+
+        verify(printer).println("""
+            |Check the quiz id you’ve typed
+        """.trimMargin())
+
+        verify(application).requestQuit()
+
+        verifyNoMoreInteractions(printer)
+        verifyNoMoreInteractions(application)
+    }
+
+    @Test
+    fun `handle – unable to show results when no correct option present`() {
+        oneQuestionQuizHandler.handle(ShowResultsUserIntent())
+
+        verify(printer).println("""
+            |Error: The question with id = ${oneQuestion.id} has no correct answer
+        """.trimMargin())
+
+        verify(printer).println("""
+            |Please inform your quiz admin about that error
+        """.trimMargin())
+
+        verify(application).requestQuit()
+
+        verifyNoMoreInteractions(printer)
+        verifyNoMoreInteractions(application)
     }
 
     @Test
