@@ -33,17 +33,24 @@ class FileSystemQuizStorage : QuizStorage {
                     .findAllByQuestionId(questionId = it.id)
 
             val answerOptions = answerOptionEntities.map {
-                AnswerOption(id = it.id,
-                        title = it.title)
+                AnswerOption(
+                        id = it.id,
+                        title = it.title,
+                        isCorrect = it.isCorrect
+                )
             }
 
-            Question(id = it.id,
+            Question(
+                    id = it.id,
                     title = it.title,
-                    answerOptions = answerOptions)
+                    answerOptions = answerOptions
+            )
         }
 
-        return Quiz(id = quizEntity.id,
-                questions = questions)
+        return Quiz(
+                id = quizEntity.id,
+                questions = questions
+        )
     }
 
 }

@@ -124,7 +124,8 @@ class FileSystemQuizStorageTest {
                     |{
                     |   "id": "$answerOptionOneId",
                     |   "questionId": "$questionOneId",
-                    |   "title": "Answer One"
+                    |   "title": "Answer One",
+                    |   "isCorrect": true
                     |}
                 """.trimMargin())
 
@@ -133,7 +134,8 @@ class FileSystemQuizStorageTest {
                     |{
                     |   "id": "$answerOptionTwoId",
                     |   "questionId": "$questionOneId",
-                    |   "title": "Answer Two"
+                    |   "title": "Answer Two",
+                    |   "isCorrect": false
                     |}
                 """.trimMargin())
 
@@ -145,11 +147,13 @@ class FileSystemQuizStorageTest {
         // Then I see quiz with question with answer options
         val expectedAnswerOptionOne = AnswerOption(
                 id = answerOptionOneId,
-                title = "Answer One")
+                title = "Answer One",
+                isCorrect = true)
 
         val expectedAnswerOptionTwo = AnswerOption(
                 id = answerOptionTwoId,
-                title = "Answer Two")
+                title = "Answer Two",
+                isCorrect = false)
 
         val expectedAnswerOptions = listOf(
                 expectedAnswerOptionOne,
