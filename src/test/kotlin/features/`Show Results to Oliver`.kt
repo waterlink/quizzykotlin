@@ -119,6 +119,8 @@ class `Show Results to Oliver` {
             |   Incorrect: No! I want more questions!
             |   Correct: Finally…
             |
+            |   type "quit" to exit
+            |
         """.trimMargin())
     }
 
@@ -154,6 +156,8 @@ class `Show Results to Oliver` {
             |   Question: How about Question Three? Last one, I promise!
             |   Incorrect: No! I want more questions!
             |   Correct: Finally…
+            |
+            |   type "quit" to exit
             |
         """.trimMargin())
     }

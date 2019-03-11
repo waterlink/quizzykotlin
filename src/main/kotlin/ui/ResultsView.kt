@@ -25,6 +25,8 @@ class ResultsView(
             |
             |$gotWrongQuestions
             |
+            |   type "quit" to exit
+            |
         """.trimMargin())
     }
 

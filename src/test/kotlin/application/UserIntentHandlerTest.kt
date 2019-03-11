@@ -254,6 +254,8 @@ class UserIntentHandlerTest {
             |   Incorrect: No
             |   Correct: Yes
             |
+            |   type "quit" to exit
+            |
         """.trimMargin())
 
         verifyNoMoreInteractions(printer)
